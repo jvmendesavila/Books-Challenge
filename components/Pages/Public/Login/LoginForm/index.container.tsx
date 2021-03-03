@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import api from '../../../services/api'
+import api from '../../../../../services/api'
 
-import { setCookie } from '../../../shared/cookies'
+import { setCookie } from '../../../../../shared/cookies'
 
 // Components
 import LoginForm from '.'
@@ -13,7 +13,7 @@ import { createMuiTheme, Grid, Theme } from '@material-ui/core'
 
 // Style
 import useStyle from './style'
-import colors from '../../../theme/colors'
+import colors from '../../../../../theme/colors'
 
 export default function LoginFormContainer() {
   const classes = useStyle()

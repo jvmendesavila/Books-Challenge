@@ -28,7 +28,7 @@ export default function Header() {
   }, [])
 
   return hideHeader.length ? null : (
-    <Grid container justify="center" style={{ padding: '42px 12px' }}>
+    <Grid container justify="center" style={{ padding: '42px 16px' }}>
       <Grid container style={{ maxWidth: 1130 }} justify="space-between">
         <Grid item style={{ display: 'flex', alignItems: 'center' }}>
           <img src="/img/home/header/logo.png" height="36px" />

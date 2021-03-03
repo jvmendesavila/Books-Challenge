@@ -11,7 +11,7 @@ import { Formik, Form } from 'formik'
 import useStyle from './style'
 
 // Types
-import FormTextField from '../../Form/FormTextField'
+import FormTextField from '../../../../Form/FormTextField'
 import { Popup } from 'semantic-ui-react'
 
 export interface PlayerFormComponentType {

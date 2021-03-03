@@ -1,14 +1,8 @@
 import React from 'react'
-import LoginFormContainer from '../components/Login/LoginForm/index.container'
+import LoginFormContainer from '../components/Pages/Public/Login/LoginForm/index.container'
 import { getCookie } from '../shared/cookies'
 
-// Components
-
-// Style
-import useStyle from './style'
-
 export default function Books() {
-  const classes = useStyle()
   return <LoginFormContainer />
 }
 
