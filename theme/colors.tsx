@@ -9,7 +9,9 @@ const colors = {
     main: '#FFF'
   },
   gray: {
-    main: '#3d3d3d'
+    main: '#3d3d3d',
+    second: '#333333',
+    third: '#999999'
   }
 }
 

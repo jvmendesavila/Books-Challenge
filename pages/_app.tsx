@@ -15,6 +15,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 // Custom Components
 import Header from '../components/Header'
+import { AuthProvider } from '../contexts/auth'
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side')
@@ -27,8 +29,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={theme}>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
-      <Header />
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Header />
+        <Component {...pageProps} />
+      </AuthProvider>
       <ToastContainer />
     </ThemeProvider>
   )

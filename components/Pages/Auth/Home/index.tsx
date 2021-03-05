@@ -1,86 +1,99 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import api from '../../../../services/api'
 import { toast } from 'react-toastify'
 
 // Material UI
-import { Grid, Typography } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 
-// Style
+// Components
+import BookList from './Book/List'
+import DetailsDialog from './Book/Details'
+import { getListBooks } from '../../../../services/books'
+
+// Styles
 import useStyle from './style'
-import Truncate from 'react-truncate'
+import AuthContext from '../../../../contexts/auth'
+
+const perPage = 12
+const preLoad = 4
 
 export default function Home() {
   const classes = useStyle()
+  const { signOut } = useContext(AuthContext)
+  const [page, setPage] = useState(1)
+  const [showBook, setShowBook] = useState(null)
+  const [openBook, setOpenBook] = useState(false)
+  const [totalPages, setTotalPages] = useState(1)
+  const [loading, setLoading] = useState(false)
   const [books, setBooks] = useState([])
 
+  function handleOpenBook(book) {
+    setShowBook(book)
+    setOpenBook(true)
+  }
+
+  function handleCloseBook() {
+    setOpenBook(false)
+    setTimeout(function () {
+      setShowBook(null)
+    }, 100)
+  }
+
+  function handleNextPage() {
+    if (page < totalPages) setPage(page + 1)
+  }
+
+  function handleBeforePage() {
+    if (page > 1) setPage(page - 1)
+  }
+
+  async function getPage() {
+    setLoading(true)
+    const { data, request } = await getListBooks({ page, perPage, preLoad })
+    if (request.status === 200) {
+      setTotalPages(Math.ceil(data.totalPages * preLoad))
+      setBooks([...books, ...data.data])
+    } else {
+      if (request.status === 401) signOut()
+      else toast.warning(data.errors.message)
+    }
+    setLoading(false)
+  }
+
+  // Init Searching for page 1
   useEffect(() => {
-    api
-      .get('/api/v1/books?page=1&amount=12')
-      .then(function ({ data }) {
-        setBooks(data.data)
-      })
-      .catch(function ({ response }) {
-        const { message } = response.data.errors
-        toast.warning(message)
-      })
+    getPage()
   }, [])
 
+  useEffect(() => {
+    if (page > 1 && page > Math.ceil(books.length / perPage)) {
+      getPage()
+    }
+  }, [page])
+
   return (
-    <Grid container justify="center">
-      <Grid container style={{ maxWidth: 1160, padding: '0px 8px 42px' }}>
-        {books.map(book => (
-          <Grid item style={{ padding: 8 }} xs={12} sm={6} md={4} lg={3}>
-            <Grid container wrap="nowrap" className={classes.container}>
-              {/* Book Image */}
-              <Grid item style={{ marginRight: 16 }}>
-                <img src={book.imageUrl} width="100px" height="150px" />
-              </Grid>
-              <Grid item className={classes.itemBook}>
-                {/* Book Header */}
-                <Grid item style={{ display: 'flex', flexDirection: 'column' }}>
-                  {/* Title */}
-                  <Truncate lines={2} className={classes.bookTitle}>
-                    <Typography>{book.title}</Typography>
-                  </Truncate>
+    <Grid container justify="center" className={classes.background}>
+      <Grid container style={{ maxWidth: 1176, padding: '0px 8px 42px' }}>
+        {/* Body */}
+        <Grid container justify="center" alignItems="center">
+          <BookList
+            page={page}
+            books={books}
+            perPage={perPage}
+            loading={loading}
+            totalPages={totalPages}
+            handleOpenBook={handleOpenBook}
+            handleNextPage={handleNextPage}
+            handleBeforePage={handleBeforePage}
+          />
 
-                  {/* Authors */}
-                  {book.authors.map((author, i) =>
-                    i <= 1 ? (
-                      <Typography className={classes.bookAuthor}>
-                        {author}
-                      </Typography>
-                    ) : i === 2 ? (
-                      <Typography
-                        className={classes.bookAuthor}
-                        style={{ lineHeight: '8px' }}
-                      >
-                        {'...'}
-                      </Typography>
-                    ) : null
-                  )}
-                </Grid>
-
-                {/* Book Deatails */}
-                <Grid item>
-                  {/* Page Count */}
-                  <Typography className={classes.bookDetails}>
-                    {`${book.pageCount} Páginas`}
-                  </Typography>
-
-                  {/* Publisher */}
-                  <Typography className={classes.bookDetails}>
-                    {`Editora ${book.publisher}`}
-                  </Typography>
-
-                  {/* Published */}
-                  <Typography className={classes.bookDetails}>
-                    {`Publicado em ${book.published}`}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        ))}
+          {/* Book Dialog */}
+          <DetailsDialog
+            open={openBook}
+            showBook={showBook}
+            onClose={handleCloseBook}
+          />
+        </Grid>
       </Grid>
     </Grid>
   )

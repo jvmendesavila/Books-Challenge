@@ -1,37 +1,16 @@
 import { makeStyles, Theme } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    padding: '19px 16px',
-    backgroundColor: 'white',
-    boxShadow: '0px 6px 24px rgba(84, 16, 95, 0.13)',
-    borderRadius: 4
-  },
-  itemBook: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    maxWidth: 'calc(100% - 114px)'
-  },
-  bookTitle: {
-    fontSize: 14,
-    fontWeight: 'bold'
-  },
-  bookAuthor: {
-    fontSize: 12,
-    lineHeight: '20px',
-    color: theme.palette.primary.main,
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
-  },
-  bookDetails: {
-    fontSize: 12,
-    lineHeight: '20px',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    color: '#999999'
+  background: {
+    '@media (min-width: 600px)': {
+      minHeight: '100vh',
+      marginTop: -120,
+      paddingTop: 120,
+      height: 'fit-content',
+      backgroundSize: 'cover',
+      backgroundAttachment: 'fixed',
+      backgroundImage: 'url(/img/home/background.png)'
+    }
   }
 }))
 

@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-
-import api from '../../../../../services/api'
-
-import { setCookie } from '../../../../../shared/cookies'
+import { valuesTypes } from '../../../../../services/auth'
 
 // Components
 import LoginForm from '.'
@@ -15,9 +11,13 @@ import { createMuiTheme, Grid, Theme } from '@material-ui/core'
 import useStyle from './style'
 import colors from '../../../../../theme/colors'
 
-export default function LoginFormContainer() {
+interface LoginFormTypes {
+  // setAuthorizatione(value: boolean): void
+  signIn(values: valuesTypes): Promise<void>
+}
+
+export default function LoginFormContainer(props: LoginFormTypes) {
   const classes = useStyle()
-  const router = useRouter()
   const [error, setError] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -34,6 +34,11 @@ export default function LoginFormContainer() {
       }
     },
     overrides: {
+      MuiTypography: {
+        root: {
+          fontFamily: 'Heebo !important'
+        }
+      },
       MuiInputLabel: {
         filled: {
           opacity: 0.5,
@@ -86,17 +91,8 @@ export default function LoginFormContainer() {
   // Functions
   async function onSubmit(values: { email: string; password: string }) {
     setLoading(true)
-    api
-      .post('/api/v1/auth/sign-in', values)
-      .then(function ({ data, headers }) {
-        localStorage.setItem('user', JSON.stringify(data))
-        setCookie('authorization', headers.authorization)
-        router.push('/home')
-      })
-      .catch(function ({ response }) {
-        const { message } = response.data.errors
-        setError(message)
-      })
+    props.signIn({ ...values, setError: setError })
+    // props.setAuthorizatione(true)
     setLoading(false)
   }
 
@@ -105,7 +101,7 @@ export default function LoginFormContainer() {
     if (error.length > 0) {
       setTimeout(function () {
         setError('')
-      }, 3000)
+      }, 1000)
     }
   }, [error])
 

@@ -1,8 +1,27 @@
+::-webkit-scrollbar {
+  width: 4px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ab2680;
+  border-radius: 30px;
+}
+
+div {
+  scrollbar-width: thin;
+}
+
+body {
+  font-family: 'Heebo' !important;
+}
+
 /* Change the white to any color */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
+  box-shadow: 0 0 0px 1000px #000 inset;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   opacity: 0.5;
 }

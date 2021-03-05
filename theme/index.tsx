@@ -19,6 +19,17 @@ const theme = createMuiTheme({
     }
   },
   overrides: {
+    MuiTypography: {
+      root: {
+        fontFamily: 'Heebo !important'
+      }
+    },
+    MuiDialog: {
+      paper: {
+        margin: '48px 12px 0',
+        maxHeight: 'calc(100% - 72px)'
+      }
+    },
     MuiButton: {
       root: {
         textTransform: 'none',

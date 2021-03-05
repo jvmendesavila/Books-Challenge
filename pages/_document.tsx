@@ -15,6 +15,10 @@ class MyDocument extends Document {
         <Head>
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link
+            href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+          />
+          <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Lato:300,400,500,700&display=swap"
           />
@@ -22,6 +26,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,500,700&display=swap"
           />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
           {/* Popup */}
           <link
             rel="stylesheet"
